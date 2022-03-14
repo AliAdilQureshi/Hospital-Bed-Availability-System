@@ -1,10 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Covid Help</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-    <p>orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, b</p>
+<br>
+<br>
+<div class="container-fluid">
+
+
+    <div>
+        <form action="" id="filterForm" method="GET">
+            <div class="row">
+
+                <div class="col">
+                    <!--state-->
+                    <div class="form-group">
+                        <label for="">Select State</label>
+                        <select name="state" class="form-control" id="stateSelect">
+                            <option value="">Select State</option>
+                            {% for state in states %}
+                            <option value="{{state.pk}}">{{state}}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <!--cities-->
+                    <div class="form-group">
+                        <label for="">Select City</label>
+                        <select name="city" class="form-control" id="citySelect">
+                            <option value="">Select State</option>
+                            {% for city in cities %}
+                            <option value="{{city.pk}}">{{city.name}}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr>
+    <table class="table text-center table-bordered table-striped">
+        <thead class="thead-light">
+        <tr>
+            <th>Hospital</th>
+            <th colspan="2" class="text-center">Oxygen Beds</th>
+            <th colspan="2" class="text-center">Oxygen cylinder</th>
+            <th colspan="2" class="text-center">ventilator</th>
+
+        </tr>
+        <tr>
+            <th></th>
+            <th>Total</th>
+            <th>Available</th>
+            <th>Total</th>
+            <th>Available</th>
+            <th>Total</th>
+            <th>Available</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for service in services %}
+        <tr>
+            <td>{{service.hospital}}</td>
+            <td>{{service.oxygen_beds_totals}}</td>
+            <td class="{% if service.oxygen_beds_available %} bg-info {%else%} bg-warning {%endif%}">
+                {{service.oxygen_beds_available}}
+            </td>
+            <td>{{service.oxygen_cylinder_total}}</td>
+            <td class="{% if service.oxygen_cylinder_available %} bg-info {%else%} bg-warning {%endif%}">
+                {{service.oxygen_cylinder_available}}
+            </td>
+            <td>{{service.ventilator_total}}</td>
+            <td class="{% if service.ventilator_available %} bg-info {%else%} bg-warning {%endif%}">
+                {{service.ventilator_available}}
+            </td>
+        </tr>
+        {% endfor%}
+        </tbody>
+    </table>
+</div>
+
 </body>
+<script>
+    window.onload = function () {
+        var stateSelect = document.getElementById('stateSelect')
+        var citySelect = document.getElementById('citySelect')
+        var form = document.getElementById('filterForm')
+
+        formSubmit = function () {
+            form.submit()
+        }
+        stateSelect.onchange = formSubmit
+        citySelect.onchange = formSubmit
+    }
+</script>
 </html>
