@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load custom_tag %}
 <html lang="en">
 <head>
     <title>Covid Help</title>
@@ -50,39 +51,30 @@
     <table class="table text-center table-bordered table-striped">
         <thead class="thead-light">
         <tr>
-            <th>Hospital</th>
-            <th colspan="2" class="text-center">Oxygen Beds</th>
-            <th colspan="2" class="text-center">Oxygen cylinder</th>
-            <th colspan="2" class="text-center">ventilator</th>
+            <th rowspan="2">Hospital</th>
+            {% for facility in facilities %}
+            <th colspan="2" class="text-center">{{facility.title}}</th>
+            {% endfor %}
 
         </tr>
         <tr>
-            <th></th>
+
+            {% for facility in facilities %}
             <th>Total</th>
             <th>Available</th>
-            <th>Total</th>
-            <th>Available</th>
-            <th>Total</th>
-            <th>Available</th>
+            {% endfor %}
 
         </tr>
         </thead>
         <tbody>
-        {% for service in services %}
+        {% for hospital in hospital %}
         <tr>
-            <td>{{service.hospital}}</td>
-            <td>{{service.oxygen_beds_totals}}</td>
-            <td class="{% if service.oxygen_beds_available %} bg-info {%else%} bg-warning {%endif%}">
-                {{service.oxygen_beds_available}}
-            </td>
-            <td>{{service.oxygen_cylinder_total}}</td>
-            <td class="{% if service.oxygen_cylinder_available %} bg-info {%else%} bg-warning {%endif%}">
-                {{service.oxygen_cylinder_available}}
-            </td>
-            <td>{{service.ventilator_total}}</td>
-            <td class="{% if service.ventilator_available %} bg-info {%else%} bg-warning {%endif%}">
-                {{service.ventilator_available}}
-            </td>
+            <td>{{hospital.name}}</td>
+            {% get_availibilities hospital as availibilities %}
+            {% for avl in availibilities %}
+            <td>{{avl.total}}</td>
+            <td class="{%get_table_class avl.available%}">{{avl.available}}</td>
+            {% endfor %}
         </tr>
         {% endfor%}
         </tbody>
