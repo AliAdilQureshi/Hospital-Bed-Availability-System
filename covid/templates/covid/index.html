@@ -25,7 +25,7 @@
                         <select name="state" class="form-control" id="stateSelect">
                             <option value="">Select State</option>
                             {% for state in states %}
-                            <option value="{{state.pk}}">{{state}}</option>
+                            <option {% is_option_selected selected_state_id state.pk %} value="{{state.pk}}">{{state}}</option>
                             {% endfor %}
 
                         </select>
@@ -38,7 +38,22 @@
                         <select name="city" class="form-control" id="citySelect">
                             <option value="">Select State</option>
                             {% for city in cities %}
-                            <option value="{{city.pk}}">{{city.name}}</option>
+                            <option {% is_option_selected selected_city_id city.pk %} value="{{city.pk}}">{{city.name}}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <!--cities-->
+                    <div class="form-group">
+                        <label for="">Select Facility</label>
+                        <select name="facility" class="form-control" id="facilitySelect">
+                            <option value="">Select facility</option>
+                            {% for facility in facilities %}
+                            <option {% is_option_selected selected_facility_id facility.pk %}
+                                    value="{{facility.pk}}">{{facility.title}}</option>
                             {% endfor %}
 
                         </select>
@@ -86,6 +101,7 @@
     window.onload = function () {
         var stateSelect = document.getElementById('stateSelect')
         var citySelect = document.getElementById('citySelect')
+        var facilitySelect = document.getElementById('facilitySelect')
         var form = document.getElementById('filterForm')
 
         formSubmit = function () {
@@ -93,6 +109,7 @@
         }
         stateSelect.onchange = formSubmit
         citySelect.onchange = formSubmit
+        facilitySelect.onchange = formSubmit
     }
 </script>
 </html>

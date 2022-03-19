@@ -13,7 +13,7 @@ def afterHospitalsace(signal, instance, **kwargs):
 
 
 @receiver(post_save, sender=Facility)
-def afteracilitysace(signal, instance, **kwargs):
+def afterFacilitysace(signal, instance, **kwargs):
     hospitals = Hospital.objects.all()
     for hospital in hospitals:
         availability = Availability(hospital=hospital, facility=instance)
@@ -24,20 +24,7 @@ def afteracilitysace(signal, instance, **kwargs):
 # for services table
 class FacilityAdmin(admin.ModelAdmin):
     model = Facility
-    list_display = ['title',
-                    # 'oxygen_beds',
-                    # 'oxygen_cylinder',
-                    # 'ventilator',
-                    ]
-
-    # def oxygen_beds(self, object):
-    #     return f'{object.oxygen_beds_available}/{object.oxygen_beds_totals}'
-    #
-    # def oxygen_cylinder(self, object):
-    #     return f'{object.oxygen_cylinder_available}/{object.oxygen_cylinder_total}'
-    #
-    # def ventilator(self, object):
-    #     return f'{object.ventilator_available}/{object.ventilator_total}'
+    list_display = ['title']
 
 
 # for hospital model
